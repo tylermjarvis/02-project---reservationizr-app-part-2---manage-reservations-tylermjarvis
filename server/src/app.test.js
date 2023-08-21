@@ -223,7 +223,7 @@ describe("GET /reservation/mock-user-id", () => {
 
     // act
     await request(app)
-      .post("/reservation/mock-user-id")
+      .get("/reservation/mock-user-id")
       .send(expectedBody)
       .expect(expectedStatus)
       .expect((response) => {
@@ -231,6 +231,69 @@ describe("GET /reservation/mock-user-id", () => {
 
         // assert
         expect(200).toEqual(expectedStatus);
+        expect(body).toEqual(expectedBody);
+      });
+  });
+
+  it("should GET a single reservation of the user with /reservations/mock-user-id/:id", async () => {
+    // arrange
+    const expectedBody = userReservations[0];
+
+    const expectedStatus = 200;
+
+    // act
+    await request(app)
+      .get("/reservation/mock-user-id/:id")
+      .send(expectedBody)
+      .expect(expectedStatus)
+      .expect((response) => {
+        const body = response.body;
+
+        // assert
+        expect(200).toEqual(expectedStatus);
+        expect(body).toEqual(expectedBody);
+      });
+  });
+
+  it("should return an invalid message, if the reservation id is not in the correct id format", async () => {
+    // arrange
+    const expectedBody = {
+      message: "This id provided is not a valid id.",
+    };
+
+    const expectedStatus = 400;
+
+    // act
+    await request(app)
+      .get("/reservation/mock-user-id/invalid-id")
+      .send(expectedBody)
+      .expect(expectedStatus)
+      .expect((response) => {
+        const body = response.body;
+
+        // assert
+        expect(400).toEqual(expectedStatus);
+        expect(body).toEqual(expectedBody);
+      });
+  });
+
+  it("should return an not found message, if the id within reservations is not found in the database", async () => {
+    // arrange
+    const expectedBody = {
+      message: "This id cannot be found in the database.",
+    };
+
+    const expectedStatus = 404;
+
+    // act
+    await request(app)
+      .get("/reservations/907f1f77bcf86cd799439015")
+      .expect(expectedStatus)
+      .expect((response) => {
+        const body = response.body;
+
+        // assert
+        expect(expectedStatus).toEqual(404);
         expect(body).toEqual(expectedBody);
       });
   });
