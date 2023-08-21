@@ -25,6 +25,21 @@ const restaurantData = [
   },
 ];
 
+const userReservations = [
+  {
+    partySize: 4,
+    date: "2023-11-17T06:30:00.000Z",
+    userId: "mock-user-id",
+    restaurantName: "Island Grill",
+  },
+  {
+    partySize: 2,
+    date: "2023-12-03T07:00:00.000Z",
+    userId: "mock-user-id",
+    restaurantName: "Green Curry",
+  },
+];
+
 describe("GET /restaurants", () => {
   it("should GET all restaurants with /restaurants", async () => {
     // arrange
@@ -100,6 +115,55 @@ describe("GET /restaurants", () => {
 
         // assert
         expect(expectedStatus).toEqual(404);
+        expect(body).toEqual(expectedBody);
+      });
+  });
+});
+
+describe("POST /reservation/mock-user-id", () => {
+  it("should create a new reservation using /reservations/mock-user-id", async () => {
+    // arrange
+    const expectedBody = {
+      partySize: 3,
+      date: "2023-12-17T06:30:00.000Z",
+      userId: "mock-user-id",
+      restaurantName: "Italian Feast",
+    };
+
+    const expectedStatus = 201;
+
+    // act
+    await request(app)
+      .post("/reservation/mock-user-id")
+      .send(expectedBody)
+      .expect(expectedStatus)
+      .expect((response) => {
+        const body = response.body;
+
+        // assert
+        expect(body).toEqual(expect.objectContaining(expectedBody));
+        // expect(body.id).toBeTruthy();
+      });
+  });
+});
+
+describe("GET /reservation/mock-user-id", () => {
+  it("should GET all reservations of the user with /reservations/mock-user-id", async () => {
+    // arrange
+    const expectedBody = userReservations;
+
+    const expectedStatus = 200;
+
+    // act
+    await request(app)
+      .post("/reservation/mock-user-id")
+      .send(expectedBody)
+      .expect(expectedStatus)
+      .expect((response) => {
+        const body = response.body;
+
+        // assert
+        expect(200).toEqual(expectedStatus);
         expect(body).toEqual(expectedBody);
       });
   });
