@@ -4,25 +4,35 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-const reservationSchema = Schema([
+const reservationSchema = Schema(
+  [
+    {
+      partySize: {
+        type: Number,
+        required: true,
+      },
+      date: {
+        type: String,
+        required: true,
+      },
+      userId: {
+        type: String,
+        required: true,
+      },
+      restaurantName: {
+        type: String,
+        required: true,
+      },
+    },
+  ],
   {
-    partySize: {
-      type: Number,
-      required: true,
+    toJSON: {
+      transform(document, ret) {
+        ret.id = ret._id;
+        delete ret._id;
+      },
     },
-    date: {
-      type: String,
-      required: true,
-    },
-    userId: {
-      type: String,
-      required: true,
-    },
-    restaurantName: {
-      type: String,
-      required: true,
-    },
-  },
-]);
+  }
+);
 
 module.exports = mongoose.model("Reservation", reservationSchema);

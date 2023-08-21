@@ -4,21 +4,31 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-const restaurantModel = Schema([
+const restaurantModel = Schema(
+  [
+    {
+      name: {
+        type: String,
+        required: true,
+      },
+      description: {
+        type: String,
+        required: true,
+      },
+      image: {
+        type: String,
+        requireuired: true,
+      },
+    },
+  ],
   {
-    name: {
-      type: String,
-      required: true,
+    toJSON: {
+      transform(document, ret) {
+        ret.id = ret._id;
+        delete ret._id;
+      },
     },
-    description: {
-      type: String,
-      required: true,
-    },
-    image: {
-      type: String,
-      requireuired: true,
-    },
-  },
-]);
+  }
+);
 
 module.exports = mongoose.model("Restaurant", restaurantModel);
