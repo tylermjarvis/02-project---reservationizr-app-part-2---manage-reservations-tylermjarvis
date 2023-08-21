@@ -145,6 +145,73 @@ describe("POST /reservation/mock-user-id", () => {
         // expect(body.id).toBeTruthy();
       });
   });
+
+  it("should return a 400 status code when using the endpoint /reservations/mock-user-id, if the request body is invalid", async () => {
+    // arrange
+    const expectedBody = {};
+
+    const expectedStatus = 400;
+
+    // act
+    await request(app)
+      .post("/reservation/mock-user-id")
+      .send(expectedBody)
+      .expect(expectedStatus)
+      .expect((response) => {
+        const body = response.body;
+
+        // assert
+        expect(body).toEqual(expectedBody);
+      });
+  });
+
+  it("should return a 400 status code when using the endpoint /reservations/mock-user-id, if the partySize is 0 or less", async () => {
+    // arrange
+    const expectedBody = {
+      partySize: 0,
+      date: "2023-11-17T06:30:00.000Z",
+      userId: "mock-user-id",
+      restaurantName: "Italian Feast",
+    };
+
+    const expectedStatus = 400;
+
+    // act
+    await request(app)
+      .post("/reservation/mock-user-id")
+      .send(expectedBody)
+      .expect(expectedStatus)
+      .expect((response) => {
+        const body = response.body;
+
+        // assert
+        expect(body).toEqual(expectedBody);
+      });
+  });
+
+  it("should return a 400 status code when using the endpoint /reservations/mock-user-id, if the date a date that is in the past", async () => {
+    // arrange
+    const expectedBody = {
+      partySize: 3,
+      date: "2020-11-17T06:30:00.000Z",
+      userId: "mock-user-id",
+      restaurantName: "Italian Feast",
+    };
+
+    const expectedStatus = 400;
+
+    // act
+    await request(app)
+      .post("/reservation/mock-user-id")
+      .send(expectedBody)
+      .expect(expectedStatus)
+      .expect((response) => {
+        const body = response.body;
+
+        // assert
+        expect(body).toEqual(expectedBody);
+      });
+  });
 });
 
 describe("GET /reservation/mock-user-id", () => {
