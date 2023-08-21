@@ -17,7 +17,7 @@ const restaurantModel = Schema(
       },
       image: {
         type: String,
-        requireuired: true,
+        required: true,
       },
     },
   ],

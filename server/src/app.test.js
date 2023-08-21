@@ -27,15 +27,24 @@ const restaurantData = [
 
 const userReservations = [
   {
+    id: "507f1f77bcf86cd799439011",
     partySize: 4,
     date: "2023-11-17T06:30:00.000Z",
-    userId: "mock-user-id",
+    userId: "",
     restaurantName: "Island Grill",
   },
   {
+    id: "614abf0a93e8e80ace792ac6",
     partySize: 2,
     date: "2023-12-03T07:00:00.000Z",
-    userId: "mock-user-id",
+    userId: "",
+    restaurantName: "Green Curry",
+  },
+  {
+    id: "61679189b54f48aa6599a7fd",
+    date: "2023-12-03T07:00:00.000Z",
+    partySize: 2,
+    userId: "another-user-id",
     restaurantName: "Green Curry",
   },
 ];
@@ -120,13 +129,13 @@ describe("GET /restaurants", () => {
   });
 });
 
-describe("POST /reservation/mock-user-id", () => {
-  it("should create a new reservation using /reservations/mock-user-id", async () => {
+describe("POST /reservations", () => {
+  it("should create a new reservation using /reservations", async () => {
     // arrange
     const expectedBody = {
       partySize: 3,
       date: "2023-12-17T06:30:00.000Z",
-      userId: "mock-user-id",
+      userId: "",
       restaurantName: "Italian Feast",
     };
 
@@ -134,7 +143,7 @@ describe("POST /reservation/mock-user-id", () => {
 
     // act
     await request(app)
-      .post("/reservation/mock-user-id")
+      .post("/reservations")
       .send(expectedBody)
       .expect(expectedStatus)
       .expect((response) => {
@@ -146,7 +155,7 @@ describe("POST /reservation/mock-user-id", () => {
       });
   });
 
-  it("should return a 400 status code when using the endpoint /reservations/mock-user-id, if the request body is invalid", async () => {
+  it("should return a 400 status code when using the endpoint /reservations, if the request body is invalid", async () => {
     // arrange
     const expectedBody = {};
 
@@ -154,7 +163,7 @@ describe("POST /reservation/mock-user-id", () => {
 
     // act
     await request(app)
-      .post("/reservation/mock-user-id")
+      .post("/reservations")
       .send(expectedBody)
       .expect(expectedStatus)
       .expect((response) => {
@@ -165,20 +174,15 @@ describe("POST /reservation/mock-user-id", () => {
       });
   });
 
-  it("should return a 400 status code when using the endpoint /reservations/mock-user-id, if the partySize is 0 or less", async () => {
+  it("should return a 400 status code when using the endpoint /reservations, if the partySize is 0 or less", async () => {
     // arrange
-    const expectedBody = {
-      partySize: 0,
-      date: "2023-11-17T06:30:00.000Z",
-      userId: "mock-user-id",
-      restaurantName: "Italian Feast",
-    };
+    const expectedBody = {};
 
     const expectedStatus = 400;
 
     // act
     await request(app)
-      .post("/reservation/mock-user-id")
+      .post("/reservations")
       .send(expectedBody)
       .expect(expectedStatus)
       .expect((response) => {
@@ -189,20 +193,15 @@ describe("POST /reservation/mock-user-id", () => {
       });
   });
 
-  it("should return a 400 status code when using the endpoint /reservations/mock-user-id, if the date a date that is in the past", async () => {
+  it("should return a 400 status code when using the endpoint /reservations, if the date a date that is in the past", async () => {
     // arrange
-    const expectedBody = {
-      partySize: 3,
-      date: "2020-11-17T06:30:00.000Z",
-      userId: "mock-user-id",
-      restaurantName: "Italian Feast",
-    };
+    const expectedBody = {};
 
     const expectedStatus = 400;
 
     // act
     await request(app)
-      .post("/reservation/mock-user-id")
+      .post("/reservations")
       .send(expectedBody)
       .expect(expectedStatus)
       .expect((response) => {
@@ -214,8 +213,8 @@ describe("POST /reservation/mock-user-id", () => {
   });
 });
 
-describe("GET /reservation/mock-user-id", () => {
-  it("should GET all reservations of the user with /reservations/mock-user-id", async () => {
+describe("GET /reservations", () => {
+  it("should GET all reservations of the user with /reservations", async () => {
     // arrange
     const expectedBody = userReservations;
 
@@ -223,7 +222,7 @@ describe("GET /reservation/mock-user-id", () => {
 
     // act
     await request(app)
-      .get("/reservation/mock-user-id")
+      .get("/reservations")
       .send(expectedBody)
       .expect(expectedStatus)
       .expect((response) => {
@@ -235,7 +234,7 @@ describe("GET /reservation/mock-user-id", () => {
       });
   });
 
-  it("should GET a single reservation of the user with /reservations/mock-user-id/:id", async () => {
+  it("should GET a single reservation of the user with /reservations/:id", async () => {
     // arrange
     const expectedBody = userReservations[0];
 
@@ -243,7 +242,7 @@ describe("GET /reservation/mock-user-id", () => {
 
     // act
     await request(app)
-      .get("/reservation/mock-user-id/:id")
+      .get("/reservations/:id")
       .send(expectedBody)
       .expect(expectedStatus)
       .expect((response) => {
@@ -265,7 +264,7 @@ describe("GET /reservation/mock-user-id", () => {
 
     // act
     await request(app)
-      .get("/reservation/mock-user-id/invalid-id")
+      .get("/reservations/invalid-id")
       .send(expectedBody)
       .expect(expectedStatus)
       .expect((response) => {

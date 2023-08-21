@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const RestaurantModel = require("./models/RestaurantModel");
-// const ReservationModel = require("./models/ReservationModel");
+const ReservationModel = require("./models/ReservationModel");
 // const { auth } = require("express-oauth2-jwt-bearer");
 const app = express();
 
@@ -49,16 +49,49 @@ app.get("/restaurants/:id", async (request, response) => {
 });
 
 // User would like to book a reservation.
-// Create a reservation on the users profile in the database using POST and the endpoint /reservations/mock-user-id
+// Create a reservation on the users profile in the database using POST and the endpoint /reservations/
 // Only create a reservation if the user is logged in and has access to that profile
 // Use Joi to stop the user from creating 0 or less in the partySize field
 // Use Joi to make sure that the date is not a date that is in the past
 // Use JWT token
+app.post("/reservations", async (request, response, next) => {
+  try {
+    const body = request;
+    const reservationBody = {
+      ...body,
+    };
+    const reservation = new ReservationModel(reservationBody);
+    await reservation.save();
+    return response.status(201).send(reservation);
+  } catch (error) {
+    error.status = 400;
+    next(error);
+  }
+});
 
-// GET all reservations with /reservations/mock-user-id
+// GET all reservations with /reservations/
 // Needs authorization
+app.get("/reservations", async (request, response) => {
+  const reservations = await ReservationModel.find({});
+  return response.status(200).send(reservations);
+});
 
-// GET a single reservation with /reservations/mock-user-id/:id
+// GET a single reservation with /reservations//:id
 // Needs authorization
+app.get("/reservations/:id", async (request, response) => {
+  const { id } = request.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return response.status(400).send(invalidId);
+  }
+
+  const reservation = await ReservationModel.findById(id);
+
+  if (!reservation) {
+    return response.status(404).send(notFound);
+  }
+
+  return response.status(200).send(reservation);
+});
 
 module.exports = app;
