@@ -3,15 +3,16 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const RestaurantModel = require("./models/RestaurantModel");
 const ReservationModel = require("./models/ReservationModel");
-// const { auth } = require("express-oauth2-jwt-bearer");
+const { Joi, celebrate, errors, Segments } = require("celebrate");
+const { auth } = require("express-oauth2-jwt-bearer");
 const app = express();
 
 // Authorization middleware. When used, the Access Token must
 // exist and be verified against the Auth0 JSON Web Key Set.
-// const checkJwt = auth({
-//   audience: "https://reservationizr.com",
-//   issuerBaseURL: `https://dev-qf8fljxgwjjq7gei.au.auth0.com/`,
-// });
+const checkJwt = auth({
+  audience: "https://reservationizr.com",
+  issuerBaseURL: `https://dev-qf8fljxgwjjq7gei.au.auth0.com/`,
+});
 
 app.use(cors());
 app.use(express.json());
@@ -54,20 +55,33 @@ app.get("/restaurants/:id", async (request, response) => {
 // Use Joi to stop the user from creating 0 or less in the partySize field
 // Use Joi to make sure that the date is not a date that is in the past
 // Use JWT token
-app.post("/reservations", async (request, response, next) => {
-  try {
-    const body = request;
-    const reservationBody = {
-      ...body,
-    };
-    const reservation = new ReservationModel(reservationBody);
-    await reservation.save();
-    return response.status(201).send(reservation);
-  } catch (error) {
-    error.status = 400;
-    next(error);
+app.post(
+  "/reservations",
+  checkJwt,
+  celebrate({
+    [Segments.BODY]: Joi.object().keys({
+      partySize: Joi.number().min(1).required(),
+      date: Joi.date().greater("now").required(),
+      userId: Joi.string().required(),
+      restaurantName: Joi.string().required(),
+    }),
+  }),
+  async (request, response, next) => {
+    try {
+      const { body, auth } = request;
+      const reservationBody = {
+        createdBy: auth.payload.sub,
+        ...body,
+      };
+      const reservation = new ReservationModel(reservationBody);
+      await reservation.save();
+      return response.status(201).send(reservation);
+    } catch (error) {
+      error.status = 400;
+      next(error);
+    }
   }
-});
+);
 
 // GET all reservations with /reservations/
 // Needs authorization
@@ -93,5 +107,7 @@ app.get("/reservations/:id", async (request, response) => {
 
   return response.status(200).send(reservation);
 });
+
+app.use(errors());
 
 module.exports = app;

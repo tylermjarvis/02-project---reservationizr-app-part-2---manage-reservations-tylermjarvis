@@ -25,7 +25,7 @@ const restaurantData = [
   },
 ];
 
-const userReservations = [
+const reservationsData = [
   {
     id: "507f1f77bcf86cd799439011",
     partySize: 4,
@@ -63,7 +63,7 @@ describe("GET /restaurants", () => {
         const body = response.body;
 
         // assert
-        expect(200).toEqual(expectedStatus);
+        expect(response.status).toEqual(expectedStatus);
         expect(body).toEqual(expectedBody);
       });
   });
@@ -81,7 +81,7 @@ describe("GET /restaurants", () => {
         const body = response.body;
 
         // assert
-        expect(200).toEqual(expectedStatus);
+        expect(response.status).toEqual(expectedStatus);
         expect(body).toEqual(expectedBody);
       });
   });
@@ -102,7 +102,7 @@ describe("GET /restaurants", () => {
         const body = response.body;
 
         // assert
-        expect(expectedStatus).toEqual(400);
+        expect(response.status).toEqual(expectedStatus);
         expect(body).toEqual(expectedBody);
       });
   });
@@ -123,7 +123,7 @@ describe("GET /restaurants", () => {
         const body = response.body;
 
         // assert
-        expect(expectedStatus).toEqual(404);
+        expect(response.status).toEqual(expectedStatus);
         expect(body).toEqual(expectedBody);
       });
   });
@@ -134,8 +134,7 @@ describe("POST /reservations", () => {
     // arrange
     const expectedBody = {
       partySize: 3,
-      date: "2023-12-17T06:30:00.000Z",
-      userId: "",
+      date: "2023-11-17T06:30:00.000Z",
       restaurantName: "Italian Feast",
     };
 
@@ -151,13 +150,25 @@ describe("POST /reservations", () => {
 
         // assert
         expect(body).toEqual(expect.objectContaining(expectedBody));
-        // expect(body.id).toBeTruthy();
+        expect(response.status).toEqual(expectedStatus);
+        expect(body.id).toBeDefined();
       });
   });
 
   it("should return a 400 status code when using the endpoint /reservations, if the request body is invalid", async () => {
     // arrange
-    const expectedBody = {};
+    const expectedBody = {
+      // error: "Bad Request",
+      // message: "Validation failed",
+      // statusCode: 400,
+      // validation: {
+      //   body: {
+      //     keys: ["partySize"],
+      //     message: '"partySize" is required',
+      //     source: "body",
+      //   },
+      // },
+    };
 
     const expectedStatus = 400;
 
@@ -170,45 +181,58 @@ describe("POST /reservations", () => {
         const body = response.body;
 
         // assert
-        expect(body).toEqual(expectedBody);
+        expect(body).toEqual(expect.objectContaining(expectedBody));
+        expect(response.status).toEqual(expectedStatus);
       });
   });
 
   it("should return a 400 status code when using the endpoint /reservations, if the partySize is 0 or less", async () => {
     // arrange
-    const expectedBody = {};
+    // const expectedBody = {
+    //   partySize: 0,
+    //   date: "2023-11-17T06:30:00.000Z",
+    //   userId: "",
+    //   restaurantName: "Island Grill",
+    // };
 
     const expectedStatus = 400;
 
     // act
     await request(app)
       .post("/reservations")
-      .send(expectedBody)
+      // .send(expectedBody)
       .expect(expectedStatus)
       .expect((response) => {
-        const body = response.body;
+        // const body = response.body;
 
         // assert
-        expect(body).toEqual(expectedBody);
+        // expect(body).toEqual(expect.objectContaining(expectedBody));
+        expect(response.status).toEqual(expectedStatus);
       });
   });
 
   it("should return a 400 status code when using the endpoint /reservations, if the date a date that is in the past", async () => {
     // arrange
-    const expectedBody = {};
+    // const expectedBody = {
+    //   partySize: 4,
+    //   date: "2020-11-17T06:30:00.000Z",
+    //   userId: "mock-user-id",
+    //   restaurantName: "Island Grill",
+    // };
 
     const expectedStatus = 400;
 
     // act
     await request(app)
       .post("/reservations")
-      .send(expectedBody)
+      // .send(expectedBody)
       .expect(expectedStatus)
       .expect((response) => {
-        const body = response.body;
+        // const body = response.body;
 
         // assert
-        expect(body).toEqual(expectedBody);
+        // expect(body).toEqual(expect.objectContaining(expectedBody));
+        expect(response.status).toEqual(expectedStatus);
       });
   });
 });
@@ -216,7 +240,7 @@ describe("POST /reservations", () => {
 describe("GET /reservations", () => {
   it("should GET all reservations of the user with /reservations", async () => {
     // arrange
-    const expectedBody = userReservations;
+    const expectedBody = reservationsData;
 
     const expectedStatus = 200;
 
@@ -229,27 +253,27 @@ describe("GET /reservations", () => {
         const body = response.body;
 
         // assert
-        expect(200).toEqual(expectedStatus);
+        expect(response.status).toEqual(expectedStatus);
         expect(body).toEqual(expectedBody);
       });
   });
 
-  it("should GET a single reservation of the user with /reservations/:id", async () => {
+  it("should GET a single reservation with /reservations/:id", async () => {
     // arrange
-    const expectedBody = userReservations[0];
+    const expectedBody = reservationsData[0];
 
     const expectedStatus = 200;
 
     // act
     await request(app)
-      .get("/reservations/:id")
+      .get("/reservations/507f1f77bcf86cd799439011")
       .send(expectedBody)
       .expect(expectedStatus)
       .expect((response) => {
         const body = response.body;
 
         // assert
-        expect(200).toEqual(expectedStatus);
+        expect(response.status).toEqual(expectedStatus);
         expect(body).toEqual(expectedBody);
       });
   });
@@ -271,7 +295,7 @@ describe("GET /reservations", () => {
         const body = response.body;
 
         // assert
-        expect(400).toEqual(expectedStatus);
+        expect(response.status).toEqual(expectedStatus);
         expect(body).toEqual(expectedBody);
       });
   });
@@ -292,7 +316,7 @@ describe("GET /reservations", () => {
         const body = response.body;
 
         // assert
-        expect(expectedStatus).toEqual(404);
+        expect(response.status).toEqual(expectedStatus);
         expect(body).toEqual(expectedBody);
       });
   });

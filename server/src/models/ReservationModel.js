@@ -1,6 +1,6 @@
 // FIXME: Add a Mongoose model here
-// All values are a string expect for "partySize"
-// Should display date, restaurant name, party size
+// All values are a string expect for "partySize" and "date"
+// Should display date, restaurant name, party size and userId
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
@@ -12,7 +12,7 @@ const reservationSchema = Schema(
         required: true,
       },
       date: {
-        type: String,
+        type: Date,
         required: true,
       },
       userId: {
@@ -20,6 +20,10 @@ const reservationSchema = Schema(
         required: true,
       },
       restaurantName: {
+        type: String,
+        required: true,
+      },
+      createdBy: {
         type: String,
         required: true,
       },
