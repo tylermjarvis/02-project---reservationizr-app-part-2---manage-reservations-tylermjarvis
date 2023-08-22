@@ -15,15 +15,11 @@ const reservationSchema = Schema(
         type: Date,
         required: true,
       },
-      userId: {
-        type: String,
-        required: true,
-      },
       restaurantName: {
         type: String,
         required: true,
       },
-      createdBy: {
+      userId: {
         type: String,
         required: true,
       },

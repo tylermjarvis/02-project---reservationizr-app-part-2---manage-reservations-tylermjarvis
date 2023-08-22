@@ -1,4 +1,5 @@
 [![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-718a45dd9cf7e7f842a935f5ebbe5719a5e09af4491e668f4dbf3b35d5cca122.svg)](https://classroom.github.com/online_ide?assignment_repo_id=11570668&assignment_repo_type=AssignmentRepo)
+
 # 02 Project - Reservationizr Application - Manage Reservations
 
 ## Assessment details
@@ -55,7 +56,7 @@ Make sure you understand what API requests and responses you need to create. In 
 
 Once you have everything up and running and have familiarised yourself with the codebase, you can complete the following customer stories.
 
-_Also note that the tests are mocking a user being signed in, the login user for your tests is `mock-user-id`. You can see this in [reservations.json](/data/reservations.json) file._
+_Also note that the tests are mocking a user being signed in, the login user for your tests is ``. You can see this in [reservations.json](/data/reservations.json) file._
 
 ---
 

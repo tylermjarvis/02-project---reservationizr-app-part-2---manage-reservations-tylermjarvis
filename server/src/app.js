@@ -62,7 +62,6 @@ app.post(
     [Segments.BODY]: Joi.object().keys({
       partySize: Joi.number().min(1).required(),
       date: Joi.date().greater("now").required(),
-      userId: Joi.string().required(),
       restaurantName: Joi.string().required(),
     }),
   }),
@@ -70,7 +69,7 @@ app.post(
     try {
       const { body, auth } = request;
       const reservationBody = {
-        createdBy: auth.payload.sub,
+        userId: auth.payload.sub,
         ...body,
       };
       const reservation = new ReservationModel(reservationBody);

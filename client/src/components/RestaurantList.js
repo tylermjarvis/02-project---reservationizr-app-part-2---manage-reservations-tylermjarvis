@@ -24,7 +24,7 @@ const RestaurantList = () => {
     };
 
     fetchRestaurantsList();
-  });
+  }, []);
 
   if (isLoading) {
     return <p>Loading...</p>;
