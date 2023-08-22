@@ -36,6 +36,15 @@ const Restaurant = () => {
   return (
     <>
       <CreateReservation restaurantName={restaurant.name} />
+      <div className="restaurant-container" key={restaurant.id}>
+        <img
+          className="restaurant-image"
+          src={restaurant.image}
+          alt={restaurant.name}
+        />
+        <h2 className="restaurant-name">{restaurant.name}</h2>
+        <p className="restaurant-description">{restaurant.description}</p>
+      </div>
     </>
   );
 };
