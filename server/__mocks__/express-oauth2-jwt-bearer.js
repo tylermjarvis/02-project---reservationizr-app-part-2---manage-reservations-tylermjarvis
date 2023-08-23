@@ -1,7 +1,7 @@
 const auth = jest.fn().mockImplementation((options) => (req, res, next) => {
   req.auth = {
     payload: {
-      sub: "",
+      sub: "mock-user-id",
     },
   };
   next();
