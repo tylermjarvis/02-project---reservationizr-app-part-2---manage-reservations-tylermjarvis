@@ -23,8 +23,9 @@ const CreateReservation = ({ restaurantName }) => {
     setIsLoading(true);
 
     const reservation = {
-      partySize: Number(partySize),
-      date: Date(date),
+      partySize,
+      date: date,
+      restaurantName,
     };
 
     const response = await fetch("http://localhost:5001/reservations", {

@@ -2,9 +2,20 @@ import "./ReservationList.css";
 import { formatDate } from "../utils/formatDate";
 import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
+// import { useAuth0 } from "@auth0/auth0-react";
 
 const ReservationList = () => {
   const [reservations, setReservations] = useState([]);
+
+  // const login = (email, password, callback) => {
+  //   let user = getUserFromDB(email);
+  //   let profile = {
+  //     user_id: "MyConnection1|" + user.id,
+  //     email: user.email,
+  //     password: user.password,
+  //   };
+  //   callback(null, profile);
+  // };
 
   useEffect(() => {
     const fetchReservationList = async () => {
