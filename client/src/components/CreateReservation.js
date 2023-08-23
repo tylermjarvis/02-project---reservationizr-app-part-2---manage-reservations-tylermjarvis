@@ -24,7 +24,7 @@ const CreateReservation = ({ restaurantName }) => {
 
     const reservation = {
       partySize: Number(partySize),
-      date,
+      date: Date(date),
     };
 
     const response = await fetch("http://localhost:5001/reservations", {
@@ -35,6 +35,7 @@ const CreateReservation = ({ restaurantName }) => {
       },
       body: JSON.stringify(reservation),
     });
+    console.log(reservation);
 
     if (isError) {
       setIsError(true);
