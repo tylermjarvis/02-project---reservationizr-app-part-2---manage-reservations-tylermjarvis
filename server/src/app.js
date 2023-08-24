@@ -41,13 +41,13 @@ app.get("/restaurants/:id", async (request, response) => {
   const { id } = request.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return response.status(400).send(invalidId);
+    return response.status(400).send({ error: "bad id" });
   }
 
   const restaurant = await RestaurantModel.findById(id);
 
-  if (!restaurant) {
-    return response.status(404).send(response.body);
+  if (restaurant === null) {
+    return response.status(404).send("not found");
   }
 
   return response.status(200).send(restaurant);
