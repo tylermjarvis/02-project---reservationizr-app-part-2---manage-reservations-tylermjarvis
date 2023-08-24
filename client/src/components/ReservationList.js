@@ -22,7 +22,10 @@ const ReservationList = () => {
           },
         });
         if (response.ok === false) {
-          throw new Error("Could not display your reservations");
+          throw new Error(
+            response.status,
+            response.text("Could not display your reservations")
+          );
         }
 
         const data = await response.json();
@@ -30,6 +33,14 @@ const ReservationList = () => {
         setIsLoading(false);
       } catch (error) {
         console.log(error);
+        return (
+          <>
+            <p>
+              {error.status}
+              {error.text}
+            </p>
+          </>
+        );
       }
     };
 

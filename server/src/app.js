@@ -25,7 +25,7 @@ const notFound = {
   message: "This id cannot be found in the database.",
 };
 
-const noPermisssion = {
+const noPermission = {
   message: "You don’t have permission to access this reservation.",
 };
 
@@ -114,7 +114,7 @@ app.get("/reservations/:id", checkJwt, async (request, response) => {
     return response.status(200).send(reservation);
   }
 
-  return response.status(403).send(noPermisssion);
+  return response.status(403).send(noPermission);
 });
 
 app.use(errors());

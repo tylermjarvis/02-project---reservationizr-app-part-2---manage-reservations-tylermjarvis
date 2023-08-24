@@ -14,6 +14,10 @@
   box-shadow: 2px 2px 8px 0.5px rgb(186, 185, 185);
 }
 
+.reserve-button:hover {
+  background-color: rgb(119, 29, 19);
+}
+
 .restaurant-name {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
