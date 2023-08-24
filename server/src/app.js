@@ -47,7 +47,7 @@ app.get("/restaurants/:id", async (request, response) => {
   const restaurant = await RestaurantModel.findById(id);
 
   if (!restaurant) {
-    return response.status(404).send(notFound);
+    return response.status(404).send(response.body);
   }
 
   return response.status(200).send(restaurant);
@@ -92,6 +92,7 @@ app.get("/reservations", checkJwt, async (request, response) => {
   const reservations = await ReservationModel.find({
     userId: request.auth.payload.sub,
   });
+
   return response.status(200).send(reservations);
 });
 
