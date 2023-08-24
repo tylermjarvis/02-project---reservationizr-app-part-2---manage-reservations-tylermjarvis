@@ -89,7 +89,7 @@ describe("GET /restaurants", () => {
   it("should return an invalid message, if the restaurant id is not in the correct id format", async () => {
     // arrange
     const expectedBody = {
-      message: "This id provided is not a valid id.",
+      error: "This id provided is not a valid id.",
     };
 
     const expectedStatus = 400;
@@ -110,7 +110,7 @@ describe("GET /restaurants", () => {
   it("should return a not found message, if the id within restaurants is not found in the database", async () => {
     // arrange
     const expectedBody = {
-      message: "This id cannot be found in the database.",
+      error: "This id cannot be found in the database.",
     };
 
     const expectedStatus = 404;
@@ -199,9 +199,7 @@ describe("POST /reservations", () => {
   it("should return a 400 status code when using the endpoint /reservations, if the date a date that is in the past", async () => {
     // arrange
     const expectedBody = {
-      partySize: 4,
-      date: "2020-11-17T06:30:00.000Z",
-      restaurantName: "Island Grill",
+      message: "Validation failed",
     };
 
     const expectedStatus = 400;
@@ -210,14 +208,14 @@ describe("POST /reservations", () => {
     await request(app)
       .post("/reservations")
       .send(expectedBody)
-      .expect(expectedStatus);
-    // .expect((response) => {
-    //   // const body = response.body;
+      .expect(expectedStatus)
+      .expect((response) => {
+        const body = response.body;
 
-    //   // assert
-    //   // expect(body).toEqual(expect.objectContaining(expectedBody));
-    //   expect(response.status).toEqual(expectedStatus);
-    // });
+        // assert
+        expect(body).toEqual(expect.objectContaining(expectedBody));
+        expect(response.status).toEqual(expectedStatus);
+      });
   });
 });
 
@@ -281,7 +279,7 @@ describe("GET /reservations", () => {
   it("should return an invalid message, if the reservation id is not in the correct id format", async () => {
     // arrange
     const expectedBody = {
-      message: "This id provided is not a valid id.",
+      error: "This id provided is not a valid id.",
     };
 
     const expectedStatus = 400;
@@ -303,7 +301,7 @@ describe("GET /reservations", () => {
   it("should return a not found message, if the id within reservations is not found in the database", async () => {
     // arrange
     const expectedBody = {
-      message: "This id cannot be found in the database.",
+      error: "This id cannot be found in the database.",
     };
 
     const expectedStatus = 404;
