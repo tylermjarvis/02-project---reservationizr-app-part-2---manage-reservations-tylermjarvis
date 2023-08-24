@@ -21,11 +21,30 @@ const ReservationList = () => {
             Authorization: `Bearer ${accessToken}`,
           },
         });
-        if (response.ok === false) {
+        // if (response.ok === false) {
+        //   throw new Error(
+        //     response.status,
+        //     response.text("Could not display your reservations")
+        //   );
+        // }
+
+        if (response.status === 400) {
           throw new Error(
             response.status,
             response.text("Could not display your reservations")
           );
+        }
+
+        if (response.status === 401) {
+          throw new Error(response.status, response.text("Unauthorized"));
+        }
+
+        if (response.status === 403) {
+          throw new Error(response.status, response.text("Forbidden"));
+        }
+
+        if (response.status === 404) {
+          throw new Error(response.status, response.text("Not found"));
         }
 
         const data = await response.json();
