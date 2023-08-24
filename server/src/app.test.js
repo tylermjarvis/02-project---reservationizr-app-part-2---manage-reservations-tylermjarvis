@@ -86,47 +86,47 @@ describe("GET /restaurants", () => {
       });
   });
 
-  // it("should return an invalid message, if the restaurant id is not in the correct id format", async () => {
-  //   // arrange
-  //   const expectedBody = {
-  //     message: "This id provided is not a valid id.",
-  //   };
+  it("should return an invalid message, if the restaurant id is not in the correct id format", async () => {
+    // arrange
+    const expectedBody = {
+      message: "This id provided is not a valid id.",
+    };
 
-  //   const expectedStatus = 400;
+    const expectedStatus = 400;
 
-  //   // act
-  //   await request(app)
-  //     .get("/restaurants/invalid-id")
-  //     .expect(expectedStatus)
-  //     .expect((response) => {
-  //       const body = response.body;
+    // act
+    await request(app)
+      .get("/restaurants/invalid-id")
+      .expect(expectedStatus)
+      .expect((response) => {
+        const body = response.body;
 
-  //       // assert
-  //       expect(response.status).toEqual(expectedStatus);
-  //       expect(body).toEqual(expectedBody);
-  //     });
-  // });
+        // assert
+        expect(response.status).toEqual(expectedStatus);
+        expect(body).toEqual(expectedBody);
+      });
+  });
 
-  // it("should return an not found message, if the id within restaurants is not found in the database", async () => {
-  //   // arrange
-  //   const expectedBody = {
-  //     message: "This id cannot be found in the database.",
-  //   };
+  it("should return a not found message, if the id within restaurants is not found in the database", async () => {
+    // arrange
+    const expectedBody = {
+      message: "This id cannot be found in the database.",
+    };
 
-  //   const expectedStatus = 404;
+    const expectedStatus = 404;
 
-  //   // act
-  //   await request(app)
-  //     .get("/restaurants/716005cae3c8e880c13dc0b2")
-  //     .expect(expectedStatus)
-  //     .expect((response) => {
-  //       const body = response.body;
+    // act
+    await request(app)
+      .get("/restaurants/716005cae3c8e880c13dc0b2")
+      .expect(expectedStatus)
+      .expect((response) => {
+        const body = response.body;
 
-  //       // assert
-  //       expect(response.status).toEqual(expectedStatus);
-  //       expect(body).toEqual(expectedBody);
-  //     });
-  // });
+        // assert
+        expect(response.status).toEqual(expectedStatus);
+        expect(body).toEqual(expectedBody);
+      });
+  });
 });
 
 describe("POST /reservations", () => {
@@ -300,7 +300,7 @@ describe("GET /reservations", () => {
       });
   });
 
-  it("should return an not found message, if the id within reservations is not found in the database", async () => {
+  it("should return a not found message, if the id within reservations is not found in the database", async () => {
     // arrange
     const expectedBody = {
       message: "This id cannot be found in the database.",

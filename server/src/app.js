@@ -41,13 +41,13 @@ app.get("/restaurants/:id", async (request, response) => {
   const { id } = request.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return response.status(400).send({ error: "bad id" });
+    return response.status(400).send({ error: invalidId });
   }
 
   const restaurant = await RestaurantModel.findById(id);
 
-  if (restaurant === null) {
-    return response.status(404).send("not found");
+  if (!restaurant) {
+    return response.status(404).send({ error: notFound });
   }
 
   return response.status(200).send(restaurant);
@@ -102,20 +102,20 @@ app.get("/reservations/:id", checkJwt, async (request, response) => {
   const { id } = request.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return response.status(400).send(invalidId);
+    return response.status(400).send({ error: invalidId });
   }
 
   const reservation = await ReservationModel.findById(id);
 
   if (!reservation) {
-    return response.status(404).send(notFound);
+    return response.status(404).send({ error: notFound });
   }
 
   if (request.auth.payload.sub === reservation.userId) {
     return response.status(200).send(reservation);
   }
 
-  return response.status(403).send(noPermission);
+  return response.status(403).send({ error: noPermission });
 });
 
 app.use(errors());
