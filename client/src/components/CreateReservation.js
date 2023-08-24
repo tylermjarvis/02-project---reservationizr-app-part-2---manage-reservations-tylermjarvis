@@ -36,7 +36,6 @@ const CreateReservation = ({ restaurantName }) => {
       },
       body: JSON.stringify(reservation),
     });
-    console.log(reservation);
 
     if (isError) {
       setIsError(true);
@@ -47,6 +46,7 @@ const CreateReservation = ({ restaurantName }) => {
     }
   };
 
+  // Error
   if (isError) {
     return (
       <>
@@ -87,6 +87,9 @@ const CreateReservation = ({ restaurantName }) => {
             className="form-input"
             selected={date}
             onChange={(date) => setDate(date)}
+            showTimeSelect
+            dateFormat="Pp"
+            minDate={new Date()}
             required
           />
           <button className="submit-btn" disabled={isLoading}>

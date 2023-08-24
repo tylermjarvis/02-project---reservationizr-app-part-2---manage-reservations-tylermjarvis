@@ -224,7 +224,22 @@ describe("POST /reservations", () => {
 describe("GET /reservations", () => {
   it("should GET all reservations of the user with /reservations", async () => {
     // arrange
-    const expectedBody = reservationsData;
+    const expectedBody = [
+      {
+        id: "507f1f77bcf86cd799439011",
+        partySize: 4,
+        date: "2023-11-17T06:30:00.000Z",
+        userId: "mock-user-id",
+        restaurantName: "Island Grill",
+      },
+      {
+        id: "614abf0a93e8e80ace792ac6",
+        partySize: 2,
+        date: "2023-12-03T07:00:00.000Z",
+        userId: "mock-user-id",
+        restaurantName: "Green Curry",
+      },
+    ];
 
     const expectedStatus = 200;
 
@@ -235,6 +250,7 @@ describe("GET /reservations", () => {
       .expect(expectedStatus)
       .expect((response) => {
         const body = response.body;
+        console.log(expectedBody);
 
         // assert
         expect(response.status).toEqual(expectedStatus);

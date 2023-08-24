@@ -25,6 +25,10 @@ const notFound = {
   message: "This id cannot be found in the database.",
 };
 
+const noPermisssion = {
+  message: "You don’t have permission to access this reservation.",
+};
+
 // GET all restaurants in the database with the endpoint /restaurants
 app.get("/restaurants", async (request, response) => {
   const restaurants = await RestaurantModel.find({});
@@ -84,14 +88,16 @@ app.post(
 
 // GET all reservations with /reservations/
 // Needs authorization
-app.get("/reservations", async (request, response) => {
-  const reservations = await ReservationModel.find({});
+app.get("/reservations", checkJwt, async (request, response) => {
+  const reservations = await ReservationModel.find({
+    userId: request.auth.payload.sub,
+  });
   return response.status(200).send(reservations);
 });
 
 // GET a single reservation with /reservations//:id
 // Needs authorization
-app.get("/reservations/:id", async (request, response) => {
+app.get("/reservations/:id", checkJwt, async (request, response) => {
   const { id } = request.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -104,7 +110,11 @@ app.get("/reservations/:id", async (request, response) => {
     return response.status(404).send(notFound);
   }
 
-  return response.status(200).send(reservation);
+  if (request.auth.payload.sub === reservation.userId) {
+    return response.status(200).send(reservation);
+  }
+
+  return response.status(403).send(noPermisssion);
 });
 
 app.use(errors());
