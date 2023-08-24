@@ -41,13 +41,17 @@ app.get("/restaurants/:id", async (request, response) => {
   const { id } = request.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return response.status(400).send({ error: invalidId });
+    return response
+      .status(400)
+      .send({ error: "This id provided is not a valid id." });
   }
 
   const restaurant = await RestaurantModel.findById(id);
 
   if (!restaurant) {
-    return response.status(404).send({ error: notFound });
+    return response
+      .status(404)
+      .send({ error: "This id cannot be found in the database." });
   }
 
   return response.status(200).send(restaurant);
@@ -102,20 +106,26 @@ app.get("/reservations/:id", checkJwt, async (request, response) => {
   const { id } = request.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return response.status(400).send({ error: invalidId });
+    return response
+      .status(400)
+      .send({ error: "This id provided is not a valid id." });
   }
 
   const reservation = await ReservationModel.findById(id);
 
   if (!reservation) {
-    return response.status(404).send({ error: notFound });
+    return response
+      .status(404)
+      .send({ error: "This id cannot be found in the database." });
   }
 
   if (request.auth.payload.sub === reservation.userId) {
     return response.status(200).send(reservation);
   }
 
-  return response.status(403).send({ error: noPermission });
+  return response
+    .status(403)
+    .send({ error: "You don’t have permission to access this reservation." });
 });
 
 app.use(errors());
