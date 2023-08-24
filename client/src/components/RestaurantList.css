@@ -1,0 +1,44 @@
+/*--- Mobile View ---*/
+.restaurant-container {
+  margin-bottom: 3rem;
+  padding: 1.5rem;
+  box-shadow: 3px 3px 15px 0.5px rgb(186, 185, 185);
+}
+
+.reserve-button {
+  padding: 0.5rem 1.2rem;
+  background-color: rgb(201, 64, 49);
+  border-radius: 0.5rem;
+  text-decoration: none;
+  color: antiquewhite;
+  box-shadow: 2px 2px 8px 0.5px rgb(186, 185, 185);
+}
+
+.restaurant-name {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.restaurant-description {
+  margin-bottom: 2rem;
+}
+
+/*-- Tablet View --*/
+@media screen and (min-width: 45rem) {
+  .restaurant-container {
+    display: grid;
+    grid-template-columns: 1.5fr 2.5fr;
+    grid-column-gap: 2rem;
+    padding: 1rem;
+  }
+
+  .restaurant-description {
+    margin-bottom: 0.5rem;
+  }
+
+  .reserve-button {
+    grid-column-start: 2;
+    margin-top: 1rem;
+    width: 7rem;
+  }
+}
