@@ -318,4 +318,25 @@ describe("GET /reservations", () => {
         expect(body).toEqual(expectedBody);
       });
   });
+
+  it("should return a forbidden message, if the user does not have access to the reservation", async () => {
+    // arrange
+    const expectedBody = {
+      error: "You don’t have permission to access this reservation.",
+    };
+
+    const expectedStatus = 403;
+
+    // act
+    await request(app)
+      .get("/reservations/61679189b54f48aa6599a7fd")
+      .expect(expectedStatus)
+      .expect((response) => {
+        const body = response.body;
+
+        // assert
+        expect(response.status).toEqual(expectedStatus);
+        expect(body).toEqual(expectedBody);
+      });
+  });
 });
