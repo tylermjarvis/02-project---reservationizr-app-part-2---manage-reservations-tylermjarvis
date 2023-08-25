@@ -71,7 +71,9 @@ const CreateReservation = ({ restaurantName }) => {
       <div className="reservation-form-container">
         <h2 className="reservation-form-name">Reserve {restaurantName}</h2>
         <form className="reservation-form" onSubmit={handleSubmit}>
-          <label htmlFor="guest-number">Number of guests</label>
+          <label className="form-label" htmlFor="guest-number">
+            Number of guests
+          </label>
           <input
             type="number"
             id="guest-number"
@@ -80,8 +82,11 @@ const CreateReservation = ({ restaurantName }) => {
               setPartySize(event.target.value);
             }}
             required
+            min="1"
           />
-          <label htmlFor="date">Date</label>
+          <label className="form-label" htmlFor="date">
+            Date
+          </label>
           <DatePicker
             id="date"
             className="form-input"

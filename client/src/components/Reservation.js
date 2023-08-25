@@ -3,12 +3,15 @@ import { formatDate } from "../utils/formatDate";
 import "./Reservation.css";
 import React, { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import BackButton from "./BackButton";
 
 const Reservation = () => {
   const { id } = useParams();
   const [reservation, setReservation] = useState({});
   const [isNotFound, setIsNotFound] = useState(false);
-  const [isError, setIsError] = useState(false);
+  const [notAuthorized, setNotAuthorized] = useState(false);
+  const [isForbidden, setIsForbidden] = useState(false);
+  const [isInvalid, setIsInvalid] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const { getAccessTokenSilently } = useAuth0();
 
@@ -28,11 +31,26 @@ const Reservation = () => {
           }
         );
         if (response.ok === false) {
-          if (!response.status === 403) {
+          if (response.status === 404) {
             setIsNotFound(true);
           }
-          setIsError(true);
-          throw new Error("Could not display your reservations");
+
+          if (response.status === 400) {
+            setIsInvalid(true);
+            throw new Error(
+              response.status,
+              response.text("That is an invalid reservation")
+            );
+          }
+
+          if (response.status === 401) {
+            setNotAuthorized(true);
+          }
+
+          if (response.status === 403) {
+            setIsForbidden(true);
+            throw new Error(response.status, response.text("Forbidden"));
+          }
         }
 
         const data = await response.json();
@@ -51,17 +69,39 @@ const Reservation = () => {
     return (
       <>
         <p className="error">Sorry! We can't find that reservation.</p>
-        {/* <BackButton /> */}
+        <BackButton />
       </>
     );
   }
 
-  // An Error
-  if (isError) {
+  // Is An Invalid Id
+  if (isInvalid) {
+    return (
+      <>
+        <p className="error">That is an invalid reservation.</p>
+        <BackButton />
+      </>
+    );
+  }
+
+  // Not Authorized
+  if (notAuthorized) {
     return (
       <>
         <p className="error">You are not authorized to see this reservation.</p>
-        {/* <BackButton /> */}
+        <BackButton />
+      </>
+    );
+  }
+
+  // Forbidden
+  if (isForbidden) {
+    return (
+      <>
+        <p className="error">
+          You are forbidden from viewing this reservation.
+        </p>
+        <BackButton />
       </>
     );
   }
@@ -74,13 +114,15 @@ const Reservation = () => {
   return (
     <>
       <h1>Reservation</h1>
-      <div className="reservation-container">
+      <div className="reservation-container-single">
         <h2>{reservation.restaurantName}</h2>
-        <p className="date">{formatDate(reservation.date)}</p>
+        <p className="date-single-reservation">
+          {formatDate(reservation.date)}
+        </p>
         <p className="party-size inline">Party size: </p>
         <p className="party-number inline">{reservation.partySize}</p>
       </div>
-      {/* <BackButton /> */}
+      <BackButton />
     </>
   );
 };

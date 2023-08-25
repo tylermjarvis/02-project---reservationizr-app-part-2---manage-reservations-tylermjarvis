@@ -3,11 +3,13 @@ import { formatDate } from "../utils/formatDate";
 import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import BackButton from "./BackButton";
 
 const ReservationList = () => {
   const [reservations, setReservations] = useState([]);
   const { getAccessTokenSilently } = useAuth0();
   const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
 
   // Fetching Reservations
   useEffect(() => {
@@ -21,30 +23,10 @@ const ReservationList = () => {
             Authorization: `Bearer ${accessToken}`,
           },
         });
-        // if (response.ok === false) {
-        //   throw new Error(
-        //     response.status,
-        //     response.text("Could not display your reservations")
-        //   );
-        // }
 
-        if (response.status === 400) {
-          throw new Error(
-            response.status,
-            response.text("Could not display your reservations")
-          );
-        }
-
-        if (response.status === 401) {
-          throw new Error(response.status, response.text("Unauthorized"));
-        }
-
-        if (response.status === 403) {
-          throw new Error(response.status, response.text("Forbidden"));
-        }
-
-        if (response.status === 404) {
-          throw new Error(response.status, response.text("Not found"));
+        if (response.ok === false) {
+          setIsError(true);
+          throw new Error("Could not display your reservations");
         }
 
         const data = await response.json();
@@ -52,29 +34,31 @@ const ReservationList = () => {
         setIsLoading(false);
       } catch (error) {
         console.log(error);
-        return (
-          <>
-            <p>
-              {error.status}
-              {error.text}
-            </p>
-          </>
-        );
       }
     };
 
     fetchReservationList();
   }, [getAccessTokenSilently]);
 
-  // Loading
+  // Error
+  if (isError) {
+    return (
+      <>
+        <p>Could not display your reservations.</p>
+        <BackButton />
+      </>
+    );
+  }
+
   if (isLoading) {
+    // Loading
     return <p>Loading...</p>;
   }
 
   return (
     <>
       <div className="reservation-container">
-        <h1>Upcoming reservations</h1>
+        <h1 className="reservation-list-heading">Upcoming reservations</h1>
         {reservations.length > 0 ? (
           <div className="reservation">
             {reservations.map((reservation) => (
@@ -83,11 +67,7 @@ const ReservationList = () => {
                   <p className="restaurant-name">
                     {reservation.restaurantName}
                   </p>
-                </li>
-                <li className="reservation-item">
                   <p className="date">{formatDate(reservation.date)}</p>
-                </li>
-                <li className="reservation-item">
                   <Link
                     to={`/reservations/${reservation.id}`}
                     className="details"

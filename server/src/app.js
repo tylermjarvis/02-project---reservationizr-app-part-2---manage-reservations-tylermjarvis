@@ -17,18 +17,6 @@ const checkJwt = auth({
 app.use(cors());
 app.use(express.json());
 
-// Error messages
-// const invalidId = error: {
-//   message: "This id provided is not a valid id.",
-// };
-// const notFound = error: {
-//   message: "This id cannot be found in the database.",
-// };
-
-// const noPermission = error: {
-//   message: "You don’t have permission to access this reservation.",
-// };
-
 // GET all restaurants in the database with the endpoint /restaurants
 app.get("/restaurants", async (request, response) => {
   const restaurants = await RestaurantModel.find({});
