@@ -89,7 +89,7 @@ describe("GET /restaurants", () => {
   it("should return an invalid message, if the restaurant id is not in the correct id format", async () => {
     // arrange
     const expectedBody = {
-      error: "This id provided is not a valid id.",
+      error: "invalid id provided",
     };
 
     const expectedStatus = 400;
@@ -110,7 +110,7 @@ describe("GET /restaurants", () => {
   it("should return a not found message, if the id within restaurants is not found in the database", async () => {
     // arrange
     const expectedBody = {
-      error: "This id cannot be found in the database.",
+      error: "restaurant not found",
     };
 
     const expectedStatus = 404;
@@ -279,7 +279,7 @@ describe("GET /reservations", () => {
   it("should return an invalid message, if the reservation id is not in the correct id format", async () => {
     // arrange
     const expectedBody = {
-      error: "This id provided is not a valid id.",
+      error: "invalid id provided",
     };
 
     const expectedStatus = 400;
@@ -301,7 +301,7 @@ describe("GET /reservations", () => {
   it("should return a not found message, if the id within reservations is not found in the database", async () => {
     // arrange
     const expectedBody = {
-      error: "This id cannot be found in the database.",
+      error: "not found",
     };
 
     const expectedStatus = 404;
@@ -322,7 +322,7 @@ describe("GET /reservations", () => {
   it("should return a forbidden message, if the user does not have access to the reservation", async () => {
     // arrange
     const expectedBody = {
-      error: "You don’t have permission to access this reservation.",
+      error: "user does not have permission to access this reservation",
     };
 
     const expectedStatus = 403;

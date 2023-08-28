@@ -56,7 +56,7 @@ Make sure you understand what API requests and responses you need to create. In 
 
 Once you have everything up and running and have familiarised yourself with the codebase, you can complete the following customer stories.
 
-_Also note that the tests are mocking a user being signed in, the login user for your tests is ``. You can see this in [reservations.json](/data/reservations.json) file._
+_Also note that the tests are mocking a user being signed in, the login user for your tests is `mock-user-id`. You can see this in [reservations.json](/data/reservations.json) file._
 
 ---
 
