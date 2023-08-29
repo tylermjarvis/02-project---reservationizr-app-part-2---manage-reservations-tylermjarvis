@@ -1,0 +1,32 @@
+/*--- Mobile View ---*/
+.reservation-container-single {
+  margin-bottom: 2.5rem;
+  padding-bottom: 2.5rem;
+  border-bottom: 1px dashed #ccc;
+}
+
+.party-size {
+  font-weight: bolder;
+}
+
+.inline {
+  display: inline;
+}
+
+.btn {
+  text-decoration: none;
+  color: black;
+  background-color: #ccc;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+}
+
+.btn:hover {
+  background-color: #555555;
+  color: white;
+}
+
+.error {
+  color: rgb(201, 64, 49);
+  font-weight: bolder;
+}
