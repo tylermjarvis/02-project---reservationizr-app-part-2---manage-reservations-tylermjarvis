@@ -1,4 +1,4 @@
 Add your deployed website domain's / URL's below
 
 React application URL / domain: https://react-reservationizr-app.onrender.com
-API URL / domain: https://react-reservationizr-app.onrender.com
+API URL / domain: https://restaurant-reservation-site-do8i.onrender.com
