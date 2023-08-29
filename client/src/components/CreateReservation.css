@@ -21,7 +21,7 @@
 
 .submit-btn {
   padding: 0.5rem 1rem;
-  background-color: rgb(201, 64, 49);
+  background-color: rgb(173, 20, 3);
   color: antiquewhite;
   border: none;
   border-radius: 0.2rem;
@@ -30,5 +30,7 @@
 }
 
 .submit-btn:hover {
-  background-color: rgb(152, 40, 28);
+  background-color: rgb(228, 56, 56);
+  color: #1e0245;
+  cursor: pointer;
 }
