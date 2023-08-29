@@ -22,7 +22,7 @@ const Reservation = () => {
 
       try {
         const response = await fetch(
-          `http://localhost:5001/reservations/${id}`,
+          `${process.env.REACT_APP_API_URL}/reservations/${id}`,
           {
             method: "GET",
             headers: {

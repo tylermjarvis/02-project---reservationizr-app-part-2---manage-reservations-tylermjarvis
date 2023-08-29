@@ -15,7 +15,9 @@ const Restaurant = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:5001/restaurants/${id}`);
+        const response = await fetch(
+          `${process.env.REACT_APP_API_URL}/restaurants/${id}`
+        );
         // FIXME: Make a fetch request and call setRestaurant with the response body
 
         // If the fetch request did not work

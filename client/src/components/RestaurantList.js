@@ -9,7 +9,9 @@ const RestaurantList = () => {
   useEffect(() => {
     const fetchRestaurantsList = async () => {
       try {
-        const fetchUrl = await fetch("http://localhost:5001/restaurants");
+        const fetchUrl = await fetch(
+          `${process.env.REACT_APP_API_URL}/restaurants`
+        );
 
         if (!fetchUrl.ok) {
           throw new Error("Could not fetch the restarants");

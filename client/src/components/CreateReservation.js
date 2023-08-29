@@ -28,14 +28,17 @@ const CreateReservation = ({ restaurantName }) => {
       restaurantName,
     };
 
-    const response = await fetch("http://localhost:5001/reservations", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-      body: JSON.stringify(reservation),
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_API_URL}/reservations`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify(reservation),
+      }
+    );
 
     if (isError) {
       setIsError(true);

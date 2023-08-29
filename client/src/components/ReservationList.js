@@ -17,12 +17,15 @@ const ReservationList = () => {
       const accessToken = await getAccessTokenSilently();
 
       try {
-        const response = await fetch("http://localhost:5001/reservations", {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
+        const response = await fetch(
+          `${process.env.REACT_APP_API_URL}/reservations`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
 
         if (response.ok === false) {
           setIsError(true);
