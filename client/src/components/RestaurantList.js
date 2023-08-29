@@ -10,7 +10,7 @@ const RestaurantList = () => {
     const fetchRestaurantsList = async () => {
       try {
         const fetchUrl = await fetch(
-          `${process.env.development.REACT_APP_API_URL}/restaurants`
+          `${process.env.REACT_APP_API_URL}/restaurants`
         );
 
         if (!fetchUrl.ok) {
