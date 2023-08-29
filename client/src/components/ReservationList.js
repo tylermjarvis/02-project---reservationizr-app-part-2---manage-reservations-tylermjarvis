@@ -36,7 +36,7 @@ const ReservationList = () => {
         setReservations(data);
         setIsLoading(false);
       } catch (error) {
-        console.log(error);
+        return error;
       }
     };
 
